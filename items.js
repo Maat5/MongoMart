@@ -49,7 +49,7 @@ function ItemDAO(database) {
       num: 0
     };
 
-    this.db.collection("item").aggregate([
+    this.db.collection('item').aggregate([
       { $group: { _id: '$category', num: { $sum: 1 } } },
       { $sort: { _id: 1 } }
     ], function(err, data) {
@@ -252,7 +252,7 @@ function ItemDAO(database) {
   this.getRelatedItems = function(callback) {
     "use strict";
 
-    this.db.collection("item").find({})
+    this.db.collection('item').find({})
       .limit(4)
       .toArray(function(err, relatedItems) {
         assert.equal(null, err);
@@ -280,9 +280,16 @@ function ItemDAO(database) {
       date: Date.now()
     }
 
-    var dummyItem = this.createDummyItem();
+    /*var dummyItem = this.createDummyItem();
     dummyItem.reviews = [reviewDoc];
-    callback(dummyItem);
+    callback(dummyItem);*/
+
+    this.db.collection('item').update({ _id: itemId }, {
+      $push: { reviews: reviewDoc }
+    }, {}, function(err, data) {
+      if (!err)
+        callback(data)
+    })
   }
 
 
