@@ -62,13 +62,7 @@ function ItemDAO(database) {
 
       categories.push(category)
       callback(categories);
-
-
-
-    })
-
-
-
+    });
 
   }
 
@@ -89,6 +83,7 @@ function ItemDAO(database) {
      *
      */
 
+    // TODO-lab1B Replace all code above (in this method).
     var match = {}
     if (!category.match('All')) {
       match = { category: category }
@@ -120,7 +115,7 @@ function ItemDAO(database) {
     }
 
      callback(pageItems);*/
-    // TODO-lab1B Replace all code above (in this method).
+
 
   }
 
