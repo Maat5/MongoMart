@@ -232,11 +232,20 @@ function ItemDAO(database) {
      *
      */
 
-    var item = this.createDummyItem();
 
     // TODO-lab3 Replace all code above (in this method).
 
-    callback(item);
+    //var item = this.createDummyItem();
+
+    //callback(item);
+
+    this.db.collection('item').findOne({ _id: itemId }, function(err, data) {
+
+      if (!err)
+        callback(data);
+    })
+
+
   }
 
 
