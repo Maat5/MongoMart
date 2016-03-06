@@ -170,15 +170,31 @@ function ItemDAO(database) {
      *
      */
 
-    var item = this.createDummyItem();
+    /*var item = this.createDummyItem();
     var items = [];
     for (var i = 0; i < 5; i++) {
       items.push(item);
-    }
+    }*/
 
     // TODO-lab2A Replace all code above (in this method).
 
-    callback(items);
+    var match = { $text: { $search: query } };
+
+    var doQuery = {};
+
+    if (page === 0)
+      doQuery = this.db.collection('item').find(match).limit(itemsPerPage);
+    else
+      doQuery = this.db.collection('item').find(match).skip(itemsPerPage * page).limit(itemsPerPage);
+
+    var pageItems = [];
+    doQuery.forEach(
+      function(items) {
+        pageItems.push(items);
+      });
+
+
+    callback(pageItems);
   }
 
 
@@ -196,7 +212,12 @@ function ItemDAO(database) {
      *
      */
 
-    callback(numItems);
+    this.db.collection('item').find({ $text: { $search: query } }).count(function(err, count) {
+      if (!err)
+        callback(count)
+    });
+
+    //callback(numItems);
   }
 
 
